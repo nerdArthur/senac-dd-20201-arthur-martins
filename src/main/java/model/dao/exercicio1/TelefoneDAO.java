@@ -14,8 +14,9 @@ import model.vo.exercicio1.Telefone;
 public class TelefoneDAO {
 
 	public Telefone salvar(Telefone novoTelefone) {
+		
 		Connection conn = Banco.getConnection();
-		String sql = "INSERT INTO TELEFONE (codigoPais, ddd, numero, tipoLinha, idCliente, ativo) "
+		String sql = "INSERT INTO TELEFONE (codigoPais, ddd, numero, movel, idCliente, ativo) "
 				+ "VALUES (?,?,?,?,?,?)";
 		PreparedStatement stmt = Banco.getPreparedStatement(conn, sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -23,10 +24,10 @@ public class TelefoneDAO {
 			stmt.setString(1, novoTelefone.getCodigoPais());
 			stmt.setString(2, novoTelefone.getDdd());
 			stmt.setString(3, novoTelefone.getNumero());
-			stmt.setString(4, novoTelefone.getTipoLinha());
+			stmt.setString(4, novoTelefone.isMovel() ? "1" : "0");
 
-			if (novoTelefone.getCliente() != null) {
-				stmt.setInt(5, novoTelefone.getCliente().getId());
+			if (novoTelefone.getDono() != null) {
+				stmt.setInt(5, novoTelefone.getDono().getId());
 			} else {
 				stmt.setInt(5, 0);
 			}
@@ -71,7 +72,7 @@ public class TelefoneDAO {
 	 */
 	public void ativarTelefones(Cliente dono, ArrayList<Telefone> telefones) {
 		for (Telefone t : telefones) {
-			t.setCliente(dono);
+			t.setDono(dono);
 			t.setAtivo(true);
 			if (t.getId() > 0) {
 				// UPDATE no Telefone
@@ -86,7 +87,7 @@ public class TelefoneDAO {
 	/**
 	 * Desativa todos os telefones de um determinado cliente.
 	 * 
-	 * @param idCliente a chave prim√°ria do cliente
+	 * @param idCliente a chave prim·ria do cliente
 	 */
 	public void desativarTelefones(int idCliente) {
 		Connection conn = Banco.getConnection();
@@ -115,10 +116,10 @@ public class TelefoneDAO {
 			stmt.setString(1, telefone.getCodigoPais());
 			stmt.setString(2, telefone.getDdd());
 			stmt.setString(3, telefone.getNumero());
-			stmt.setString(4, telefone.getTipoLinha());
+			stmt.setString(4, telefone.isMovel() ? "1" : "0");
 
-			if (telefone.getCliente() != null) {
-				stmt.setInt(5, telefone.getCliente().getId());
+			if (telefone.getDono() != null) {
+				stmt.setInt(5, telefone.getDono().getId());
 			}
 
 			stmt.setInt(6, telefone.isAtivo() ? 1 : 0);
@@ -202,9 +203,9 @@ public class TelefoneDAO {
 
 	/**
 	 * 
-	 * Constr√≥i um objeto do tipo Telefone a partir de um registro do resultSet
+	 * ConstrÛi um objeto do tipo Telefone a partir de um registro do resultSet
 	 * 
-	 * @param resultadoDaConsulta o item do resultSet (isto √©, um registro da tabela
+	 * @param resultadoDaConsulta o item do resultSet (isto È, um registro da tabela
 	 *                            Telefone)
 	 * @return um objeto do tipo Telefone
 	 * 
@@ -217,11 +218,11 @@ public class TelefoneDAO {
 
 			ClienteDAO cDAO = new ClienteDAO();
 			Cliente donoDoTelefone = cDAO.consultarPorId(resultadoDaConsulta.getInt("idCliente"));
-			telefone.setCliente(donoDoTelefone);
+			telefone.setDono(donoDoTelefone);
 			telefone.setCodigoPais(resultadoDaConsulta.getString("codigoPais"));
 			telefone.setDdd(resultadoDaConsulta.getString("ddd"));
 			telefone.setNumero(resultadoDaConsulta.getString("numero"));
-			telefone.setTipoLinha(resultadoDaConsulta.getString("tipoLinha"));
+			telefone.setMovel(resultadoDaConsulta.getBoolean("movel"));
 			telefone.setAtivo(resultadoDaConsulta.getBoolean("ativo"));
 		} catch (SQLException e) {
 			System.out.println("Erro ao construir telefone a partir do ResultSet");
@@ -247,7 +248,7 @@ public class TelefoneDAO {
 			telefoneJaCadastrado = rs.next();
 
 		} catch (SQLException e) {
-			System.out.println("Erro ao verificar se telefone j√° est√° cadastrado " + novoTelefone);
+			System.out.println("Erro ao verificar se telefone j· est· cadastrado " + novoTelefone);
 			System.out.println("Causa: " + e.getMessage());
 		} finally {
 			Banco.closeResultSet(rs);

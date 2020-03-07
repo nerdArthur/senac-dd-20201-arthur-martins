@@ -36,7 +36,7 @@ public class ClienteDAO {
 			
 			// TODO ao salvar um cliente temos que marcar os telefones que ele possui!
 		} catch (SQLException e) {
-			System.out.println("Erro ao inserir novo endere√ßo.");
+			System.out.println("Erro ao inserir novo cliente.");
 			System.out.println("Erro: " + e.getMessage());
 		}
 		
@@ -44,9 +44,9 @@ public class ClienteDAO {
 	}
 
 	public boolean excluir(int id) {
-		// TODO liberar todos os telefones que o usu√°rio possu√≠a
+		// TODO liberar todos os telefones que o usu·rio possuÌa
 		
-		// TODO Apagar o cliente ou fazer exclus√£o l√≥gica?
+		// TODO Apagar o cliente ou fazer exclus„o lÛgica?
 		Connection conn = Banco.getConnection();
 		String sql = "DELETE FROM CLIENTE WHERE ID= " + id;
 		Statement stmt = Banco.getStatement(conn);
@@ -77,7 +77,7 @@ public class ClienteDAO {
 			stmt.setInt(5, cliente.getId());
 			registrosAlterados = stmt.executeUpdate();
 			 
-			// TODO atualizar a rela√ß√£o de telefones que o cliente possui
+			// TODO atualizar a relaÁ„o de telefones que o cliente possui
 
 		} catch (SQLException e) {
 			System.out.println("Erro ao inserir novo cliente.");
@@ -115,9 +115,9 @@ public class ClienteDAO {
 
 	/**
 	 * 
-	 * Constr√≥i um objeto do tipo Cliente a partir de um registro do resultSet
+	 * ConstrÛi um objeto do tipo Cliente a partir de um registro do resultSet
 	 * 
-	 * @param resultadoDaConsulta o item do resultSet (isto √©, um registro da tabela
+	 * @param resultadoDaConsulta o item do resultSet (isto È, um registro da tabela
 	 *                            Cliente)
 	 * @return um objeto do tipo Cliente
 	 * 
@@ -142,6 +142,24 @@ public class ClienteDAO {
 		}
 		
 		return c;
+	}
+
+	public boolean cpfJaUtilizado(String cpf) {
+		
+		Connection conexao = Banco.getConnection();
+		String sql = " select id from cliente c " + 
+				"where c.cpf = '" + cpf + "'";
+		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
+		boolean cpfUsado = false;
+		
+		try {
+			ResultSet rs = stmt.executeQuery();
+			cpfUsado = rs.next();
+		} catch (SQLException e) {
+			System.out.println("Erro ao verificar se CPF j· foi usado. Causa: " + e.getMessage());
+		}
+		
+		return cpfUsado;
 	}
 
 }
