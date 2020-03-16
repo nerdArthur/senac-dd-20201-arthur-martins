@@ -9,7 +9,7 @@ public class ExecutavelExercicio1 {
 
 	public static void main(String[] argumentosLinhaDeComando) {
 
-	   AdicionaJOptionPane.adicionar();
-		
+	  // AdicionaJOptionPane.adicionar();
+		AdicionaJOptionPane.adicionarComDono();
 	}
 }

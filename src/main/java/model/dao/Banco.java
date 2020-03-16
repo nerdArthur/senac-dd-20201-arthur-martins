@@ -64,7 +64,8 @@ import java.sql.Statement;
  */
 public class Banco {
 
-	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+	private static final String DRIVER = "com.mysql.jdbc.Driver"
+			+ "";
 	private static final String BANCODADOS = "exemplos";
 	private static final String CONEXAO = "jdbc:mysql://localhost:3306/" + BANCODADOS
 			+ "?useTimezone=true&serverTimezone=UTC";
