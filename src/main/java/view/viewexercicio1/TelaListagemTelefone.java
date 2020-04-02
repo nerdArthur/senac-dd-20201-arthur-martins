@@ -62,6 +62,8 @@ public class TelaListagemTelefone extends JFrame {
 				try {
 					TelaListagemTelefone frame = new TelaListagemTelefone();
 					frame.setVisible(true);
+					frame.setResizable(false);
+					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

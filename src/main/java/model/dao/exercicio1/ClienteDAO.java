@@ -100,7 +100,6 @@ public class ClienteDAO {
 			stmt.setInt(5, cliente.getId());
 			registrosAlterados = stmt.executeUpdate();
 
-			// TODO atualizar a relação de telefones que o cliente possui
 
 		} catch (SQLException e) {
 			System.out.println("Erro ao inserir novo cliente.");
@@ -121,7 +120,6 @@ public class ClienteDAO {
 			stmt.setInt(1, id);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
-				//id, nome, sobrenome, cpf, idEndereco
 				cliente.setId(rs.getInt(1));
 				cliente.setNome(rs.getString(2));
 				cliente.setSobrenome(rs.getString(3));

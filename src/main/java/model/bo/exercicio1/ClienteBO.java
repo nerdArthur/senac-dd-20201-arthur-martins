@@ -23,7 +23,6 @@ public class ClienteBO {
 				mensagem = "Erro ao salvar cliente";
 			}
 		}
-		
 		return mensagem;
 	}
 	

@@ -49,6 +49,8 @@ public class TelaListagemClientes extends JFrame {
 				try {
 					TelaListagemClientes window = new TelaListagemClientes();
 					window.frmListagemDeClientes.setVisible(true);
+					window.setResizable(false);
+					window.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
