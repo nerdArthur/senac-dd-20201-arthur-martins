@@ -134,6 +134,8 @@ public class TelefoneController {
 
 	public String validarTelefone(String txtNumero) {
 		String mensagem = "";
+		//
+		
 		if (txtNumero.length() < 8) {
 			mensagem += "O telefone deve conter pelo menos 8 números.\n";
 		} else {

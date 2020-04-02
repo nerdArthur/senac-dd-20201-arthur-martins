@@ -23,11 +23,11 @@ public class ClienteController {
 		return bo.consultarClientes();
 	}
 
-	public String validarCampos(String txtCpf, String txtNome, String txtSobrenome, Object txtTelefone) {
+	public String validarCampos(String txtCpf, String txtNome, String txtSobrenome, JComboBox cbTelefones) {
 		String mensagem = "";
-		
-		mensagem += verificarTelefone(txtTelefone);
-		
+
+		mensagem += verificarTelefone(cbTelefones);
+
 		mensagem += validarNome(txtNome);
 
 		mensagem += validarCpf(txtCpf);
@@ -84,19 +84,19 @@ public class ClienteController {
 		return mensagem;
 	}
 
-	public String validarSobrenome (String txtSobrenome) {
+	public String validarSobrenome(String txtSobrenome) {
 		String mensagem = "";
-		
+
 		if (txtSobrenome.isEmpty()) {
 			mensagem += "O campo de sobrenome deve ser preenchido.";
 		} else {
-		for (int i = 0; i < txtSobrenome.length(); i++) {
-			char a = txtSobrenome.charAt(i);
-			if (!Character.isLetter(a)) {
-				mensagem += "O sobrenome não pode conter números.\n";
-				break;
+			for (int i = 0; i < txtSobrenome.length(); i++) {
+				char a = txtSobrenome.charAt(i);
+				if (!Character.isLetter(a)) {
+					mensagem += "O sobrenome não pode conter números.\n";
+					break;
+				}
 			}
-		}
 		}
 		return mensagem;
 	}
@@ -141,12 +141,14 @@ public class ClienteController {
 
 		return enderecos;
 	}
-	
-	public ArrayList<Telefone> preencherTelefone() {
+
+	public void preencherTelefones(JComboBox cbTelefones) {
 		TelefoneBO telefoneBO = new TelefoneBO();
 		ArrayList<Telefone> telefones = telefoneBO.listarTelefones();
-		
-		return telefones;
+		cbTelefones.addItem("Selecione um ítem");
+		for (Telefone telefone : telefones) {
+			cbTelefones.addItem((Telefone) telefone);
+		}
 	}
 
 	public int selecionarIdEndereco(Object endereco) {
@@ -160,59 +162,68 @@ public class ClienteController {
 		mensagem += validarCpf(txtCpf);
 		if (mensagem.isEmpty()) {
 			ClienteBO bo = new ClienteBO();
-
 		}
 
 		return mensagem;
 	}
 
-	public String salvarCliente(String txtNome, String txtSobrenome, String txtCpf, Object txtEndereco, Object txtTelefone) {
+	public String salvarCliente(String txtNome, String txtSobrenome, String txtCpf, Object txtEndereco,
+			JComboBox cbTelefones) {
 		String mensagem = "";
-		
-		mensagem += validarCampos(txtCpf, txtNome, txtSobrenome, txtTelefone);
+
+		mensagem += validarCampos(txtCpf, txtNome, txtSobrenome, cbTelefones);
 		if (!mensagem.isEmpty()) {
 			JOptionPane.showMessageDialog(null, mensagem);
 		} else {
-			
-			
 
 			ClienteBO bo = new ClienteBO();
-			Cliente cliente = criarCliente(txtNome, txtSobrenome, txtCpf, txtEndereco, txtTelefone);
+			Cliente cliente = criarCliente(txtNome, txtSobrenome, txtCpf, txtEndereco, cbTelefones);
 			bo.salvar(cliente);
 
 		}
 		return mensagem;
 	}
 
-	public Cliente criarCliente(String txtNome, String txtSobrenome, String txtCpf, Object txtEndereco, Object txtTelefone) {
+	public Cliente criarCliente(String txtNome, String txtSobrenome, String txtCpf, Object txtEndereco,
+			JComboBox cbTelefones) {
 		Cliente cliente = new Cliente();
+		
+		String validacao = cbTelefones.getSelectedItem().toString();
+		Telefone telefone = new Telefone();
+		if (!validacao.equalsIgnoreCase("Selecione um ítem")) {
+			telefone = (Telefone) cbTelefones.getSelectedItem();
+		}
+		
 		cliente.setNome(txtNome);
 		cliente.setSobrenome(txtSobrenome);
 		cliente.setCpf(txtCpf);
 
 		Endereco endereco = (Endereco) txtEndereco;
 		cliente.setEndereco(endereco);
-		
-		Telefone telefone = (Telefone) txtTelefone;
+
 		ArrayList<Telefone> telefones = new ArrayList<Telefone>();
 		telefones.add(telefone);
 		cliente.setTelefones(telefones);
 
 		return cliente;
 	}
-	
+
 	public void atualizarComboBox(JComboBox comboBox, Object item) {
 		comboBox.removeItem(item);
 	}
-	
-	public String verificarTelefone(Object txtTelefone) {
+
+	public String verificarTelefone(JComboBox cbTelefones) {
 		String mensagem = "";
-		
-		Telefone telefone = (Telefone)txtTelefone;
-		String txtNumero = telefone.getNumero();
-		TelefoneController telefoneController = new TelefoneController();
-		if ( !telefoneController.validarTelefone(txtNumero).isEmpty() ) {
-			mensagem += telefoneController.validarTelefone(txtNumero);
+		String validacao = cbTelefones.getSelectedItem().toString();
+		Telefone telefone = new Telefone();
+		if (validacao.equalsIgnoreCase("Selecione um ítem")) {
+		} else {
+			telefone = (Telefone) cbTelefones.getSelectedItem();
+			String txtNumero = telefone.getNumero();
+			TelefoneController telefoneController = new TelefoneController();
+			if (!telefoneController.validarTelefone(txtNumero).isEmpty()) {
+				mensagem += telefoneController.validarTelefone(txtNumero);
+			}
 		}
 		return mensagem;
 	}

@@ -99,9 +99,9 @@ public class TelaCadastroCliente extends JFrame {
 		cbEndereco.setBounds(97, 135, 439, 22);
 		contentPane.add(cbEndereco);
 		
-		ArrayList<Telefone> listaTelefones = clienteController.preencherTelefone();
-		Object telefones[] = listaTelefones.toArray();
-		final JComboBox cbTelefones = new JComboBox(telefones);
+
+		final JComboBox cbTelefones = new JComboBox();
+		clienteController.preencherTelefones(cbTelefones);
 		cbTelefones.setBounds(373, 92, 160, 22);
 		contentPane.add(cbTelefones);
 
@@ -111,7 +111,7 @@ public class TelaCadastroCliente extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				ClienteController controller = new ClienteController();
 				controller.salvarCliente(txtNome.getText(), txtSobrenome.getText(), txtCpf.getText(),
-						cbEndereco.getSelectedItem(), cbTelefones.getSelectedItem());
+						cbEndereco.getSelectedItem(), cbTelefones);
 			}
 		});
 
