@@ -111,8 +111,31 @@ public class ClienteDAO {
 	}
 
 	public Cliente consultarPorId(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn = Banco.getConnection();
+		String sql = "SELECT * FROM cliente WHERE id = ?";
+		PreparedStatement stmt = Banco.getPreparedStatement(conn, sql);
+		ResultSet rs = null;
+		Cliente cliente = new Cliente();
+		
+		try {
+			stmt.setInt(1, id);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				//id, nome, sobrenome, cpf, idEndereco
+				cliente.setId(rs.getInt(1));
+				cliente.setNome(rs.getString(2));
+				cliente.setSobrenome(rs.getString(3));
+				cliente.setCpf(rs.getString(4));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			Banco.closeResultSet(rs);
+			Banco.closePreparedStatement(stmt);
+			Banco.closeConnection(conn);
+		}
+		return cliente;
 	}
 
 	public ArrayList<Cliente> consultarTodos() {
@@ -135,30 +158,6 @@ public class ClienteDAO {
 
 		return clientes;
 	}
-
-	//TODO concertar esse método
-	public Cliente consultarPorCpf(String cpf) {
-		Connection conn = Banco.getConnection();
-		String sql = "SELECT * FROM CLIENTE WHERE cpf = ? ";
-		PreparedStatement stmt = Banco.getPreparedStatement(conn, sql);
-		Cliente cliente = new Cliente();
-		try {
-			stmt.setString(1, cpf);
-			ResultSet resultset = stmt.executeQuery(sql);
-			if (resultset.next()) {
-				 cliente.setId( resultset.getInt("id") );
-				 cliente.setNome( resultset.getString("nome") );
-				 cliente.setSobrenome( resultset.getString("sobrenome") );
-				 cliente.setCpf( resultset.getString("cpf") );
-			}
-		} catch (SQLException ex) {
-			System.out.println("Erro ao consultar cliente.");
-			System.out.println("Erro: " + ex.getMessage());
-		}
-
-		return cliente;
-	}
-
 	/**
 	 * 
 	 * Constrói um objeto do tipo Cliente a partir de um registro do resultSet

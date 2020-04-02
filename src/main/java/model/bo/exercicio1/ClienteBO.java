@@ -62,12 +62,6 @@ public class ClienteBO {
 			return false;
 		}
 	}
-
-	public Cliente criarClientePorCpf (String txtCpf) {
-		ClienteDAO dao = new ClienteDAO();
-		Cliente cliente = dao.consultarPorCpf(txtCpf);
-		return cliente;
-	}
 	
 	public boolean excluirPorId(int id) {
 		ClienteDAO dao = new ClienteDAO();
