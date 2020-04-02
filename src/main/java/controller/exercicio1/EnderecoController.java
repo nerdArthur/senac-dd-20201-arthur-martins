@@ -1,6 +1,10 @@
 package controller.exercicio1;
 
+import java.util.ArrayList;
+
 import model.bo.exercicio1.EnderecoBO;
+import model.dao.exercicio1.EnderecoDAO;
+import model.vo.exercicio1.Endereco;
 
 public class EnderecoController {
 
@@ -16,6 +20,12 @@ public class EnderecoController {
 			mensagem = "Informe um número inteiro";
 		}
 		return mensagem;
+	}
+	
+	public ArrayList<Endereco> consultarTodosEnderecos() {
+		ArrayList<Endereco> enderecos = bo.consultarTodosEnderecos();
+		
+		return enderecos;
 	}
 
 }

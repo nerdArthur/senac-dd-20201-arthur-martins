@@ -16,37 +16,40 @@ public class ClienteDAO {
 
 	public Cliente salvar(Cliente novoCliente) {
 		Connection conexao = Banco.getConnection();
-		String sql = " INSERT INTO CLIENTE(NOME, SOBRENOME, CPF, IDENDERECO) "
-				+ " VALUES (?,?,?,?)";
-		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql, 
-				PreparedStatement.RETURN_GENERATED_KEYS);
+		String sql = " INSERT INTO CLIENTE(NOME, SOBRENOME, CPF, IDENDERECO) " + " VALUES (?,?,?,?)";
+		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql, PreparedStatement.RETURN_GENERATED_KEYS);
 		try {
 			stmt.setString(1, novoCliente.getNome());
 			stmt.setString(2, novoCliente.getSobrenome());
 			stmt.setString(3, novoCliente.getCpf());
 			stmt.setInt(4, novoCliente.getEndereco().getId());
 			stmt.execute();
-			
+
 			ResultSet rs = stmt.getGeneratedKeys();
-			
-			if(rs.next()) {
+			int refIdGerado = 0;
+
+			if (rs.next()) {
 				int idGerado = rs.getInt(1);
+				refIdGerado = idGerado;
 				novoCliente.setId(idGerado);
 			}
 			
-			// TODO ao salvar um cliente temos que marcar os telefones que ele possui!
+			//TODO trocar o dono do telefone criado pelo idGerado.
+			if (!novoCliente.getTelefones().isEmpty()) {
+					TelefoneDAO telefoneDAO = new TelefoneDAO();
+					telefoneDAO.alterarDono(novoCliente.getTelefones().get(0).getNumero(), refIdGerado);
+					//telefoneDAO.ativarTelefones(novoCliente, novoCliente.getTelefones());
+				}
+
 		} catch (SQLException e) {
 			System.out.println("Erro ao inserir novo cliente.");
 			System.out.println("Erro: " + e.getMessage());
 		}
-		
+
 		return novoCliente;
 	}
 
 	public boolean excluir(int id) {
-		// TODO liberar todos os telefones que o usuário possuía
-		
-		// TODO Apagar o cliente ou fazer exclusão lógica?
 		Connection conn = Banco.getConnection();
 		String sql = "DELETE FROM CLIENTE WHERE ID= " + id;
 		Statement stmt = Banco.getStatement(conn);
@@ -59,14 +62,34 @@ public class ClienteDAO {
 			System.out.println("Erro: " + e.getMessage());
 		}
 		
+		boolean excluiu = quantidadeLinhasAfetadas > 0;
+
+		if (excluiu) {
+			TelefoneDAO telefoneDAO = new TelefoneDAO();
+			telefoneDAO.desativarTelefones(id);
+		}
+
+		return excluiu;
+	}
+
+	public boolean excluirPorCpf(String cpf) {
+		Connection conn = Banco.getConnection();
+		String sql = "DELETE FROM CLIENTE WHERE CPF = '" + cpf + "'";
+		Statement stmt = Banco.getStatement(conn);
+		int quantidadeLinhasAfetadas = 0;
+		try {
+			quantidadeLinhasAfetadas = stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			System.out.println("Erro ao excluir cliente por meio do cpf.");
+			System.out.println("Erro: " + e.getMessage());
+		}
+
 		return quantidadeLinhasAfetadas > 0;
 	}
 
 	public boolean alterar(Cliente cliente) {
 		Connection conexao = Banco.getConnection();
-		String sql = " UPDATE CLIENTE"
-				+ "SET NOME=?, SOBRENOME=?, CPF=?, IDENDERECO=? "
-				+ " WHERE ID = ?";
+		String sql = " UPDATE CLIENTE" + "SET NOME=?, SOBRENOME=?, CPF=?, IDENDERECO=? " + " WHERE ID = ?";
 		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
 		int registrosAlterados = 0;
 		try {
@@ -76,14 +99,14 @@ public class ClienteDAO {
 			stmt.setInt(4, cliente.getEndereco().getId());
 			stmt.setInt(5, cliente.getId());
 			registrosAlterados = stmt.executeUpdate();
-			 
+
 			// TODO atualizar a relação de telefones que o cliente possui
 
 		} catch (SQLException e) {
 			System.out.println("Erro ao inserir novo cliente.");
 			System.out.println("Erro: " + e.getMessage());
 		}
-		
+
 		return registrosAlterados > 0;
 	}
 
@@ -96,21 +119,44 @@ public class ClienteDAO {
 		Connection conexao = Banco.getConnection();
 		String sql = " SELECT * FROM CLIENTE ";
 		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
-		
+
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 		try {
 			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				Cliente c = construirClienteDoResultSet(rs);
 				clientes.add(c);
 			}
-			
+
 		} catch (SQLException e) {
 			System.out.println("Erro ao consultar clientes.");
 			System.out.println("Erro: " + e.getMessage());
 		}
-		
+
 		return clientes;
+	}
+
+	//TODO concertar esse método
+	public Cliente consultarPorCpf(String cpf) {
+		Connection conn = Banco.getConnection();
+		String sql = "SELECT * FROM CLIENTE WHERE cpf = ? ";
+		PreparedStatement stmt = Banco.getPreparedStatement(conn, sql);
+		Cliente cliente = new Cliente();
+		try {
+			stmt.setString(1, cpf);
+			ResultSet resultset = stmt.executeQuery(sql);
+			if (resultset.next()) {
+				 cliente.setId( resultset.getInt("id") );
+				 cliente.setNome( resultset.getString("nome") );
+				 cliente.setSobrenome( resultset.getString("sobrenome") );
+				 cliente.setCpf( resultset.getString("cpf") );
+			}
+		} catch (SQLException ex) {
+			System.out.println("Erro ao consultar cliente.");
+			System.out.println("Erro: " + ex.getMessage());
+		}
+
+		return cliente;
 	}
 
 	/**
@@ -133,33 +179,46 @@ public class ClienteDAO {
 			EnderecoDAO enderecoDAO = new EnderecoDAO();
 			Endereco end = enderecoDAO.consultarPorId(rs.getInt("idendereco"));
 			c.setEndereco(end);
-			
+
 			TelefoneDAO telefoneDAO = new TelefoneDAO();
 			ArrayList<Telefone> telefones = telefoneDAO.consultarTodosPorIdCliente(rs.getInt("id"));
 			c.setTelefones(telefones);
 		} catch (SQLException e) {
 			System.out.println("Erro ao construir cliente a partir do ResultSet. Causa: " + e.getMessage());
 		}
-		
+
 		return c;
 	}
 
 	public boolean cpfJaUtilizado(String cpf) {
-		
+
 		Connection conexao = Banco.getConnection();
-		String sql = " select id from cliente c " + 
-				"where c.cpf = '" + cpf + "'";
+		String sql = " select id from cliente c " + "where c.cpf = '" + cpf + "'";
 		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
 		boolean cpfUsado = false;
-		
+
 		try {
 			ResultSet rs = stmt.executeQuery();
 			cpfUsado = rs.next();
 		} catch (SQLException e) {
 			System.out.println("Erro ao verificar se CPF já foi usado. Causa: " + e.getMessage());
 		}
-		
+
 		return cpfUsado;
+	}
+	
+	public boolean telefoneExistente(String txtTelefone) {
+		Connection conn = Banco.getConnection();
+		String sql = "Select id from telefone where numero = '" + txtTelefone + "'";
+		PreparedStatement stmt = Banco.getPreparedStatement(conn, sql);
+		boolean telefoneExistente = false;
+		try {
+			ResultSet rs = stmt.executeQuery(sql);
+			telefoneExistente = rs.next();
+		} catch(SQLException e) {
+			System.out.println("Erro ao verificar se o telefone já existe. Causa: " + e.getMessage());
+		}
+		return telefoneExistente;
 	}
 
 }

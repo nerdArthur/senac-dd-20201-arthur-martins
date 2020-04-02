@@ -1,6 +1,9 @@
 package model.bo.exercicio1;
 
+import java.util.ArrayList;
+
 import model.dao.exercicio1.EnderecoDAO;
+import model.vo.exercicio1.Endereco;
 
 public class EnderecoBO {
 
@@ -20,4 +23,12 @@ public class EnderecoBO {
 
 		return mensagem;
 	}
+	
+	public ArrayList<Endereco> consultarTodosEnderecos () {
+		EnderecoDAO dao = new EnderecoDAO();
+		ArrayList<Endereco> enderecos = dao.consultarTodos();
+		
+		return enderecos;
+	}
+	
 }

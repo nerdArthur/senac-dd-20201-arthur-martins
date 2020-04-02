@@ -12,25 +12,20 @@ import model.dao.BaseDAO;
 import model.vo.exercicio1.Endereco;
 
 public class EnderecoDAO implements BaseDAO<Endereco> {
-
+	
 	public Endereco salvar(Endereco novaEntidade) {
-		// Conectar no banco
 		Connection conexao = Banco.getConnection();
 
 		String sql = " INSERT INTO ENDERECO (CEP, ESTADO, CIDADE, RUA, BAIRRO, NUMERO) " + " VALUES ( "
 				+ novaEntidade.getCep() + ", " + novaEntidade.getEstado() + "," + novaEntidade.getCidade() + ", "
 				+ novaEntidade.getRua() + "," + novaEntidade.getBairro() + "," + novaEntidade.getNumero() + ")";
 
-		// Obter um statement
 		PreparedStatement statement = Banco.getPreparedStatement(conexao, sql);
 		try {
-			// Fazer o INSERT
 			statement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-			// Executar
 			ResultSet resultado = statement.getGeneratedKeys();
 
 			if (resultado.next()) {
-				// Incluir a chave gerada na novaEntidade (coluna de posição 1)
 				novaEntidade.setId(resultado.getInt(1));
 			}
 		} catch (SQLException e) {

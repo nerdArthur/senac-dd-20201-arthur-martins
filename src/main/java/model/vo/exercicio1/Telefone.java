@@ -83,7 +83,7 @@ public class Telefone {
 
 	@Override
 	public String toString() {
-		return "Telefone [id=" + id + ", dono=" + dono + ", codigoPais=" + codigoPais + ", ddd=" + ddd + ", numero="
-				+ numero + ", movel=" + movel + ", ativo=" + ativo + "]";
+		return numero;
 	}
+	
 }
