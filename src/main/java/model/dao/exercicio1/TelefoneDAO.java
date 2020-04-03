@@ -19,6 +19,7 @@ public class TelefoneDAO {
 		String sql = "INSERT INTO TELEFONE (codigoPais, ddd, numero, movel, idCliente, ativo) "
 				+ "VALUES (?,?,?,?,?,?)";
 		PreparedStatement stmt = Banco.getPreparedStatement(conn, sql, PreparedStatement.RETURN_GENERATED_KEYS);
+		ResultSet rs = null;
 
 		try {
 			stmt.setString(1, novoTelefone.getCodigoPais());
@@ -35,14 +36,18 @@ public class TelefoneDAO {
 			stmt.setInt(6, novoTelefone.isAtivo() ? 1 : 0);
 			stmt.execute();
 
-			ResultSet generatedKeys = stmt.getGeneratedKeys();
-			if (generatedKeys.next()) {
-				int idGerado = generatedKeys.getInt(1);
+			rs = stmt.getGeneratedKeys();
+			if (rs.next()) {
+				int idGerado = rs.getInt(1);
 				novoTelefone.setId(idGerado);
 			}
 		} catch (SQLException e) {
 			System.out.println("Erro ao inserir novo telefone.");
 			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			Banco.closeResultSet(rs);
+			Banco.closePreparedStatement(stmt);
+			Banco.closeConnection(conn);
 		}
 
 		return novoTelefone;
@@ -59,8 +64,11 @@ public class TelefoneDAO {
 		} catch (SQLException e) {
 			System.out.println("Erro ao excluir telefone.");
 			System.out.println("Erro: " + e.getMessage());
+		}finally {
+			Banco.closePreparedStatement(stmt);
+			Banco.closeConnection(conn);
 		}
-
+		
 		return quantidadeLinhasAfetadas > 0;
 	}
 
@@ -101,6 +109,9 @@ public class TelefoneDAO {
 		} catch (SQLException e) {
 			System.out.println("Erro ao desativar telefone.");
 			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			Banco.closePreparedStatement(stmt);
+			Banco.closeConnection(conn);
 		}
 	}
 
@@ -128,6 +139,9 @@ public class TelefoneDAO {
 		} catch (SQLException e) {
 			System.out.println("Erro ao atualizar telefone.");
 			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			Banco.closePreparedStatement(stmt);
+			Banco.closeConnection(conn);
 		}
 
 		return quantidadeLinhasAfetadas > 0;
@@ -137,20 +151,24 @@ public class TelefoneDAO {
 		Connection conn = Banco.getConnection();
 		String sql = " SELECT id, codigoPais, ddd, numero, movel, idCliente, ativo " + " FROM TELEFONE " + " WHERE ID="
 				+ id;
-
 		Statement stmt = Banco.getStatement(conn);
+		ResultSet rs = null;
 
 		Telefone telefone = null;
 		try {
-			ResultSet resultadoDaConsulta = stmt.executeQuery(sql);
+			 rs = stmt.executeQuery(sql);
 
-			if (resultadoDaConsulta.next()) {
-				telefone = construirTelefoneDoResultSet(resultadoDaConsulta);
+			if (rs.next()) {
+				telefone = construirTelefoneDoResultSet(rs);
 			}
 
 		} catch (SQLException e) {
 			System.out.println("Erro ao consultar telefone por id = " + id);
 			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			Banco.closeResultSet(rs);
+			Banco.closePreparedStatement(stmt);
+			Banco.closeConnection(conn);
 		}
 
 		return telefone;
@@ -159,22 +177,26 @@ public class TelefoneDAO {
 	public ArrayList<Telefone> consultarTodos() {
 		Connection conn = Banco.getConnection();
 		String sql = " SELECT id, codigoPais, ddd, numero, movel, idCliente, ativo " + " FROM TELEFONE ";
-
 		Statement stmt = Banco.getStatement(conn);
+		ResultSet rs = null;
 		ArrayList<Telefone> telefones = new ArrayList<Telefone>();
 		try {
-			ResultSet resultadoDaConsulta = stmt.executeQuery(sql);
+			 rs = stmt.executeQuery(sql);
 
-			while (resultadoDaConsulta.next()) {
-				Telefone telefone = construirTelefoneDoResultSet(resultadoDaConsulta);
+			while (rs.next()) {
+				Telefone telefone = construirTelefoneDoResultSet(rs);
 				telefones.add(telefone);
 			}
 
 		} catch (SQLException e) {
 			System.out.println("Erro ao consultar telefones");
 			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			Banco.closeResultSet(rs);
+			Banco.closePreparedStatement(stmt);
+			Banco.closeConnection(conn);
 		}
-
+		
 		return telefones;
 	}
 
@@ -182,20 +204,24 @@ public class TelefoneDAO {
 		Connection conn = Banco.getConnection();
 		String sql = " SELECT id, codigoPais, ddd, numero, movel, idCliente, ativo " + " FROM TELEFONE "
 				+ " WHERE IDCLIENTE = " + idCliente;
-
 		Statement stmt = Banco.getStatement(conn);
+		ResultSet rs = null;
 		ArrayList<Telefone> telefones = new ArrayList<Telefone>();
 		try {
-			ResultSet resultadoDaConsulta = stmt.executeQuery(sql);
+			rs = stmt.executeQuery(sql);
 
-			while (resultadoDaConsulta.next()) {
-				Telefone telefone = construirTelefoneDoResultSet(resultadoDaConsulta);
+			while (rs.next()) {
+				Telefone telefone = construirTelefoneDoResultSet(rs);
 				telefones.add(telefone);
 			}
 
 		} catch (SQLException e) {
 			System.out.println("Erro ao consultar telefones por idCliente. Idcliente: " + idCliente);
 			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			Banco.closeResultSet(rs);
+			Banco.closePreparedStatement(stmt);
+			Banco.closeConnection(conn);
 		}
 
 		return telefones;
@@ -254,7 +280,7 @@ public class TelefoneDAO {
 		} catch (SQLException e) {
 			System.out.println("Erro ao construir telefone a partir do ResultSet");
 			System.out.println("Erro: " + e.getMessage());
-		}
+		} 
 
 		return telefone;
 	}
