@@ -38,15 +38,11 @@ public class TelaListagemTelefone extends JFrame {
 			novaLinha[0] = telefone.getCodigoPais();
 			novaLinha[1] = telefone.getDdd();
 			novaLinha[2] = telefone.getNumero();
-			
-			if (telefone.getDono() == null) {
-				novaLinha[3] = teste;
-			} else {
+
 				if (telefone.getDono().getId() == 0) {
 					novaLinha[3] = "Nenhum";
 				}
 				novaLinha[3] = telefone.getDono().getNome();
-			}
 
 			model.addRow(novaLinha);
 		}
