@@ -31,7 +31,6 @@ public class TelaListagemTelefone extends JFrame {
 		limparTabela();
 		DefaultTableModel model = (DefaultTableModel) tblTelefones.getModel();
 		for (Telefone telefone : telefones) {
-			String teste = "teste";
 			Object[] novaLinha = new Object[6];
 
 			novaLinha[0] = telefone.getCodigoPais();
