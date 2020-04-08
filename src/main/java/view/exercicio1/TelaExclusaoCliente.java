@@ -58,7 +58,7 @@ public class TelaExclusaoCliente extends JFrame {
 				ClienteController controller = new ClienteController();
 				String mensagem = controller.excluirPorComboBox(cbCliente.getSelectedItem());
 				if ( !mensagem.isEmpty() ) {
-					JOptionPane.showConfirmDialog(null, mensagem);
+					JOptionPane.showMessageDialog(null, mensagem);
 				} else {
 					controller.atualizarComboBox(cbCliente, cbCliente.getSelectedItem());
 				}
