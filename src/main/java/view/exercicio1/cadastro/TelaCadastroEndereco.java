@@ -1,4 +1,4 @@
-package view.exercicio1;
+package view.exercicio1.cadastro;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;

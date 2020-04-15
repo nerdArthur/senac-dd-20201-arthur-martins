@@ -1,4 +1,4 @@
-package view.viewexercicio1;
+package view.exercicio1.listagem;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;

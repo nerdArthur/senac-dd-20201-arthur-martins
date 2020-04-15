@@ -1,4 +1,4 @@
-package view.viewexercicio1;
+package view.exercicio1.cadastro;
 
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
@@ -72,13 +72,6 @@ public class TelaCadastroCliente extends JFrame {
 		txtSobrenome.setColumns(10);
 		txtSobrenome.setBounds(373, 46, 160, 22);
 		contentPane.add(txtSobrenome);
-
-		/*
-		 * try { MaskFormatter maskFormatter = new MaskFormatter("###.###.###-##");
-		 * 
-		 * } catch (ParseException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 */
 
 		JLabel lblCpf = new JLabel("Cpf:");
 		lblCpf.setBounds(57, 95, 25, 16);

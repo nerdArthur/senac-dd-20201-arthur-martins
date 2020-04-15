@@ -1,4 +1,4 @@
-package view.exercicio1;
+package view.exercicio1.exclusao;
 
 import java.awt.EventQueue;
 import java.awt.Font;
