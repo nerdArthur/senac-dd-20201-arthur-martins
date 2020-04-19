@@ -135,22 +135,6 @@ public class ClienteController {
 		return mensagem;
 	}
 
-	public ArrayList<Endereco> preencherEndereco() {
-		EnderecoBO enderecoBO = new EnderecoBO();
-		ArrayList<Endereco> enderecos = enderecoBO.consultarTodosEnderecos();
-
-		return enderecos;
-	}
-
-	public void preencherTelefones(JComboBox cbTelefones) {
-		TelefoneBO telefoneBO = new TelefoneBO();
-		ArrayList<Telefone> telefones = telefoneBO.listarTelefones();
-		cbTelefones.addItem("Selecione um ítem");
-		for (Telefone telefone : telefones) {
-			cbTelefones.addItem((Telefone) telefone);
-		}
-	}
-
 	public int selecionarIdEndereco(Object endereco) {
 		Endereco idEndereco = (Endereco) endereco;
 		return idEndereco.getId();
@@ -226,6 +210,15 @@ public class ClienteController {
 			}
 		}
 		return mensagem;
+	}
+
+	public void preencherClientes(JComboBox comboBox) {
+		ClienteBO clienteBO = new ClienteBO();
+		ArrayList<Cliente> clientes = clienteBO.consultarClientes();
+		comboBox.addItem("Selecione um ítem");
+		for (Cliente cliente : clientes) {
+			comboBox.addItem((Cliente) cliente);
+		}
 	}
 
 }

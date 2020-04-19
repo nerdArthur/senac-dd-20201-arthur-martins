@@ -24,7 +24,12 @@ public class EnderecoController {
 	
 	public ArrayList<Endereco> consultarTodosEnderecos() {
 		ArrayList<Endereco> enderecos = bo.consultarTodosEnderecos();
-		
+		return enderecos;
+	}
+	
+	public ArrayList<Endereco> preencherEndereco() {
+		EnderecoBO enderecoBO = new EnderecoBO();
+		ArrayList<Endereco> enderecos = enderecoBO.consultarTodosEnderecos();
 		return enderecos;
 	}
 

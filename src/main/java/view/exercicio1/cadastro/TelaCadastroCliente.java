@@ -15,8 +15,8 @@ import javax.swing.border.EmptyBorder;
 
 import controller.exercicio1.ClienteController;
 import controller.exercicio1.EnderecoController;
+import controller.exercicio1.TelefoneController;
 import model.vo.exercicio1.Endereco;
-import model.vo.exercicio1.Telefone;
 
 public class TelaCadastroCliente extends JFrame {
 
@@ -85,8 +85,8 @@ public class TelaCadastroCliente extends JFrame {
 		lblEndereco.setBounds(24, 138, 58, 16);
 		contentPane.add(lblEndereco);
 
-		ClienteController clienteController = new ClienteController();
-		ArrayList<Endereco> listaEnderecos = clienteController.preencherEndereco();
+		EnderecoController enderecoController = new EnderecoController();
+		ArrayList<Endereco> listaEnderecos = enderecoController.preencherEndereco();
 		Object enderecos[] = listaEnderecos.toArray();
 		final JComboBox cbEndereco = new JComboBox(enderecos);
 		cbEndereco.setBounds(97, 135, 439, 22);
@@ -94,7 +94,8 @@ public class TelaCadastroCliente extends JFrame {
 		
 
 		final JComboBox cbTelefones = new JComboBox();
-		clienteController.preencherTelefones(cbTelefones);
+		TelefoneController telefoneController = new TelefoneController();
+		telefoneController.preencherTelefones(cbTelefones);
 		cbTelefones.setBounds(373, 92, 160, 22);
 		contentPane.add(cbTelefones);
 
