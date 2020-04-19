@@ -6,9 +6,6 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
@@ -16,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 public class MenuPrincipal extends JFrame {
@@ -72,9 +70,8 @@ public class MenuPrincipal extends JFrame {
 					desktopPane.add(cadastroCliente);
 					cadastroCliente.show();
 				}
-				if (limitadorDeTelaClientes != 0) {
+				if (cadastroCliente.isClosed()) {
 					limitadorDeTelaClientes--;
-					desktopPane.remove(cadastroCliente);
 				}
 			}
 		});
@@ -87,7 +84,7 @@ public class MenuPrincipal extends JFrame {
 		menuAutores.setForeground(Color.WHITE);
 		menuAutores.setBackground(Color.DARK_GRAY);
 		menuBar.add(menuAutores);
-		
+
 		JMenuItem menuItemSobre = new JMenuItem("Sobre");
 		menuItemSobre.setForeground(Color.WHITE);
 		menuItemSobre.setBackground(Color.DARK_GRAY);
@@ -100,7 +97,7 @@ public class MenuPrincipal extends JFrame {
 					sobreAutor = new TelaSobreAutor();
 					sobreAutor.setVisible(true);
 				}
-				if (sobreAutor == null && limitadorDeTelaAutores != 0) {
+				if (!sobreAutor.isDisplayable()) {
 					limitadorDeTelaAutores--;
 				}
 			}
