@@ -290,11 +290,12 @@ public class TelefoneDAO {
 				+ " AND T.DDD = " + novoTelefone.getDdd() + " AND T.NUMERO = " + novoTelefone.getNumero();
 
 		Connection conn = Banco.getConnection();
-		Statement stmt = Banco.getStatement(conn);
+		Statement stmt = null;
 
 		ResultSet rs = null;
 		boolean telefoneJaCadastrado = false;
 		try {
+			stmt = Banco.getStatement(conn);
 			rs = stmt.executeQuery(sql);
 			telefoneJaCadastrado = rs.next();
 
@@ -331,5 +332,28 @@ public class TelefoneDAO {
 		
 		return alterado;
 	}
-	
+
+	public String excluirTelefonePorId(int id) {
+		String mensagem = "";
+		String sql = "DELETE FROM telefone WHERE id = ? ";
+		Connection conn = Banco.getConnection();
+		PreparedStatement stmt = null;
+		int resultSet = 0;
+		
+		try {
+			stmt = Banco.getPreparedStatement(conn, sql);
+			stmt.setInt(1, id);
+			resultSet = stmt.executeUpdate();
+			if (resultSet == 0) {
+				mensagem = "Não foi possível excluir o telefone.";
+			}
+		} catch (SQLException ex) {
+			System.out.println("Erro ao excluir telefone por id.");
+			System.out.println("Causa: " + ex.getMessage());
+		} finally {
+			Banco.closeConnection(conn);
+			Banco.closePreparedStatement(stmt);
+		}
+		return mensagem;
+	}
 }

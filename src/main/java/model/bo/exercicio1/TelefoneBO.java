@@ -29,9 +29,9 @@ public class TelefoneBO {
 		return telefones;
 	}
 	
-	public Boolean possuiDono (String numero) {
+	public boolean possuiDono (String numero) {
 		TelefoneDAO telefoneDAO = new TelefoneDAO();
-		Boolean possuiDono = telefoneDAO.possuiDono(numero);
+		boolean possuiDono = telefoneDAO.possuiDono(numero);
 		return possuiDono;
 	}
 	
@@ -43,6 +43,13 @@ public class TelefoneBO {
 		}
 		
 		return alterou;
+	}
+
+	public String excluirTelefonePorId(int id) {
+		String mensagem = "";
+		TelefoneDAO dao = new TelefoneDAO();
+		mensagem = dao.excluirTelefonePorId(id);
+		return mensagem;
 	}
 
 }

@@ -47,7 +47,8 @@ public class InternalFrameCadastroCliente extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public InternalFrameCadastroCliente() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setClosable(true);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 593, 268);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -84,29 +85,18 @@ public class InternalFrameCadastroCliente extends JInternalFrame {
 		lblEndereco.setBounds(24, 138, 58, 16);
 		contentPane.add(lblEndereco);
 
-		ClienteController clienteController = new ClienteController();
-		ArrayList<Endereco> listaEnderecos = clienteController.preencherEndereco();
-		Object enderecos[] = listaEnderecos.toArray();
-		final JComboBox cbEndereco = new JComboBox(enderecos);
+		
+		final JComboBox cbEndereco = new JComboBox();
 		cbEndereco.setBounds(97, 135, 439, 22);
 		contentPane.add(cbEndereco);
 		
 
 		final JComboBox cbTelefones = new JComboBox();
-		clienteController.preencherTelefones(cbTelefones);
 		cbTelefones.setBounds(373, 92, 160, 22);
 		contentPane.add(cbTelefones);
 
 		JButton btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				ClienteController controller = new ClienteController();
-				controller.salvarCliente(txtNome.getText(), txtSobrenome.getText(), txtCpf.getText(),
-						cbEndereco.getSelectedItem(), cbTelefones);
-			}
-		});
-
+		
 		btnCadastrar.setBounds(239, 183, 97, 25);
 		contentPane.add(btnCadastrar);
 
