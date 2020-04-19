@@ -94,9 +94,9 @@ public class TelaCadastroTelefone extends JFrame {
 		btnCancelar.setBounds(204, 149, 97, 25);
 		contentPane.add(btnCancelar);
 
-		JLabel lvlDono = new JLabel("Dono:");
-		lvlDono.setBounds(12, 99, 34, 16);
-		contentPane.add(lvlDono);
+		JLabel lblDono = new JLabel("Dono:");
+		lblDono.setBounds(12, 99, 34, 16);
+		contentPane.add(lblDono);
 		
 		final JComboBox comboBox = new JComboBox();
 		ClienteController controller = new ClienteController();
