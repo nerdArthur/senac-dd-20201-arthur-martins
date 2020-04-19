@@ -147,4 +147,11 @@ public class TelefoneController {
 		return mensagem;
 	}
 	
+	public String excluirTelefonePorId (int id) {
+		String mensagem = "";
+		TelefoneBO bo = new TelefoneBO();
+		mensagem = bo.excluirTelefonePorId(id);
+		return mensagem;
+	}
+	
 }
