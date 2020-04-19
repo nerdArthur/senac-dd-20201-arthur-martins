@@ -1,9 +1,6 @@
 package view.aula10;
 
 import java.awt.EventQueue;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -16,7 +13,6 @@ import javax.swing.border.EmptyBorder;
 
 import controller.exercicio1.ClienteController;
 import controller.exercicio1.EnderecoController;
-import model.vo.exercicio1.Endereco;
 
 public class InternalFrameCadastroCliente extends JInternalFrame {
 
