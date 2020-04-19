@@ -14,6 +14,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import controller.exercicio1.ClienteController;
 import controller.exercicio1.TelefoneController;
 import model.vo.exercicio1.Telefone;
 
@@ -98,7 +99,7 @@ public class TelaCadastroTelefone extends JFrame {
 		contentPane.add(lvlDono);
 		
 		final JComboBox comboBox = new JComboBox();
-		TelefoneController controller = new TelefoneController();
+		ClienteController controller = new ClienteController();
 		controller.preencherClientes(comboBox);
 		comboBox.setBounds(61, 96, 257, 22);
 		contentPane.add(comboBox);
