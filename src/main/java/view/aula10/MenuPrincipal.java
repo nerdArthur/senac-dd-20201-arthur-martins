@@ -27,7 +27,7 @@ public class MenuPrincipal extends JFrame {
 	private InternalFrameCadastroTelefone cadastroTelefone;
 	private InternalFrameExclusaoTelefone exclusaoTelefone;
 	private InternalFrameListagemTelefone listagemTelefone;
-	private TelaSobreAutor sobreAutor;
+	private TelaSobreAutores sobreAutor;
 
 	/**
 	 * Launch the application.
@@ -86,22 +86,22 @@ public class MenuPrincipal extends JFrame {
 				.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_add_user_male_80px.png")));
 		menuCliente.add(menuItemCadastroCliente);
 
-		JMenu menuAutores = new JMenu("Autores");
-		menuAutores.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_hand_with_pen_80px.png")));
-		menuAutores.setForeground(Color.WHITE);
-		menuAutores.setBackground(Color.DARK_GRAY);
-		menuBar.add(menuAutores);
+		JMenu menuSobre = new JMenu("Sobre");
+		menuSobre.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_info_80px.png")));
+		menuSobre.setForeground(Color.WHITE);
+		menuSobre.setBackground(Color.DARK_GRAY);
+		menuBar.add(menuSobre);
 
-		JMenuItem menuItemSobre = new JMenuItem("Sobre");
-		menuItemSobre.setForeground(Color.WHITE);
-		menuItemSobre.setBackground(Color.DARK_GRAY);
-		menuItemSobre.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_info_80px.png")));
-		menuItemSobre.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0));
-		menuItemSobre.addActionListener(new ActionListener() {
+		JMenuItem menuItemAutores = new JMenuItem("Autores");
+		menuItemAutores.setForeground(Color.WHITE);
+		menuItemAutores.setBackground(Color.DARK_GRAY);					
+		menuItemAutores.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_hand_with_pen_80px.png")));
+		menuItemAutores.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0));
+		menuItemAutores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (limitadorDeTelaAutores == 0) {
 					limitadorDeTelaAutores++;
-					sobreAutor = new TelaSobreAutor();
+					sobreAutor = new TelaSobreAutores();
 					sobreAutor.setVisible(true);
 				}
 				if (!sobreAutor.isDisplayable()) {
@@ -109,7 +109,7 @@ public class MenuPrincipal extends JFrame {
 				}
 			}
 		});
-		menuAutores.add(menuItemSobre);
+		menuSobre.add(menuItemAutores);
 		
 		JMenu menuListagemTelefone = new JMenu("Telefones");
 		menuListagemTelefone.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_phone_80px_5.png")));

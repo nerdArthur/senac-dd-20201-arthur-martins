@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class TelaSobreAutor extends JFrame {
+public class TelaSobreAutores extends JFrame {
 
 	private JPanel contentPane;
 	private  MenuPrincipal menuPrincipal;
@@ -21,7 +21,7 @@ public class TelaSobreAutor extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaSobreAutor frame = new TelaSobreAutor();
+					TelaSobreAutores frame = new TelaSobreAutores();
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
@@ -34,7 +34,7 @@ public class TelaSobreAutor extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaSobreAutor() {
+	public TelaSobreAutores() {
 		setTitle("Sobre o autor");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
