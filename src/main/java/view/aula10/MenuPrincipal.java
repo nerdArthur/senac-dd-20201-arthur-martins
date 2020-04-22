@@ -18,16 +18,12 @@ import javax.swing.KeyStroke;
 
 public class MenuPrincipal extends JFrame {
 
-	private int limitadorDeTelaClientes = 0;
 	private int limitadorDeTelaAutores = 0;
-	private int limitadorExclusaoTelefones = 0;
-	private int limitadorListagemTelefones = 0;
-	private int limitadorCadastroTelefones = 0;
 	private InternalFrameCadastroCliente cadastroCliente;
 	private InternalFrameCadastroTelefone cadastroTelefone;
 	private InternalFrameExclusaoTelefone exclusaoTelefone;
 	private InternalFrameListagemTelefone listagemTelefone;
-	private TelaSobreAutor sobreAutor;
+	private TelaSobreAutores sobreAutor;
 
 	/**
 	 * Launch the application.
@@ -70,14 +66,10 @@ public class MenuPrincipal extends JFrame {
 		menuItemCadastroCliente.setBackground(Color.DARK_GRAY);
 		menuItemCadastroCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (limitadorDeTelaClientes == 0) {
-					limitadorDeTelaClientes++;
+				if (cadastroCliente == null || !cadastroCliente.isVisible()) {
 					cadastroCliente = new InternalFrameCadastroCliente();
 					desktopPane.add(cadastroCliente);
 					cadastroCliente.show();
-				}
-				if (cadastroCliente.isClosed()) {
-					limitadorDeTelaClientes--;
 				}
 			}
 		});
@@ -86,93 +78,84 @@ public class MenuPrincipal extends JFrame {
 				.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_add_user_male_80px.png")));
 		menuCliente.add(menuItemCadastroCliente);
 
-		JMenu menuAutores = new JMenu("Autores");
-		menuAutores.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_hand_with_pen_80px.png")));
-		menuAutores.setForeground(Color.WHITE);
-		menuAutores.setBackground(Color.DARK_GRAY);
-		menuBar.add(menuAutores);
+		JMenu menuSobre = new JMenu("Sobre");
+		menuSobre.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_info_80px.png")));
+		menuSobre.setForeground(Color.WHITE);
+		menuSobre.setBackground(Color.DARK_GRAY);
+		menuBar.add(menuSobre);
 
-		JMenuItem menuItemSobre = new JMenuItem("Sobre");
-		menuItemSobre.setForeground(Color.WHITE);
-		menuItemSobre.setBackground(Color.DARK_GRAY);
-		menuItemSobre.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_info_80px.png")));
-		menuItemSobre.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0));
-		menuItemSobre.addActionListener(new ActionListener() {
+		JMenuItem menuItemAutores = new JMenuItem("Autores");
+		menuItemAutores.setForeground(Color.WHITE);
+		menuItemAutores.setBackground(Color.DARK_GRAY);
+		menuItemAutores.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_hand_with_pen_80px.png")));
+		menuItemAutores.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0));
+		menuItemAutores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (limitadorDeTelaAutores == 0) {
-					limitadorDeTelaAutores++;
-					sobreAutor = new TelaSobreAutor();
+				if (sobreAutor == null) {
+					sobreAutor = new TelaSobreAutores();
 					sobreAutor.setVisible(true);
-				}
-				if (!sobreAutor.isDisplayable()) {
-					limitadorDeTelaAutores--;
+				} else if (sobreAutor != null && !sobreAutor.isVisible()) {
+					sobreAutor.setVisible(true);
+				} else if (sobreAutor.isVisible()) {
+					sobreAutor.setVisible(true);
 				}
 			}
 		});
-		menuAutores.add(menuItemSobre);
-		
+		menuSobre.add(menuItemAutores);
+
 		JMenu menuListagemTelefone = new JMenu("Telefones");
 		menuListagemTelefone.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_phone_80px_5.png")));
 		menuListagemTelefone.setBackground(Color.DARK_GRAY);
 		menuListagemTelefone.setForeground(Color.WHITE);
 		menuBar.add(menuListagemTelefone);
-		
+
 		JMenuItem menuItemListarTodos = new JMenuItem("Listar todos");
 		menuItemListarTodos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (limitadorListagemTelefones == 0) {
-					limitadorListagemTelefones++;
+				if (listagemTelefone == null || !listagemTelefone.isVisible()) {
 					listagemTelefone = new InternalFrameListagemTelefone();
 					desktopPane.add(listagemTelefone);
 					listagemTelefone.show();
 				}
-				if (listagemTelefone.isClosed()) {
-					limitadorListagemTelefones--;
-				}
 			}
 		});
 		menuItemListarTodos.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0));
-		menuItemListarTodos.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_address_book_80px.png")));
+		menuItemListarTodos
+				.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_address_book_80px.png")));
 		menuItemListarTodos.setForeground(Color.WHITE);
 		menuItemListarTodos.setBackground(Color.DARK_GRAY);
 		menuListagemTelefone.add(menuItemListarTodos);
-		
+
 		JMenuItem menuItemExcluirTelefone = new JMenuItem("Excluir telefone");
 		menuItemExcluirTelefone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (limitadorExclusaoTelefones == 0) {
-					limitadorExclusaoTelefones++;
+				if (exclusaoTelefone == null || !exclusaoTelefone.isVisible()) {
 					exclusaoTelefone = new InternalFrameExclusaoTelefone();
 					desktopPane.add(exclusaoTelefone);
 					exclusaoTelefone.show();
 				}
-				if (exclusaoTelefone.isClosed()) {
-					limitadorExclusaoTelefones--;
-				}
 			}
 		});
 		menuItemExcluirTelefone.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0));
-		menuItemExcluirTelefone.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_no_phones_80px.png")));
+		menuItemExcluirTelefone
+				.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_no_phones_80px.png")));
 		menuItemExcluirTelefone.setForeground(Color.WHITE);
 		menuItemExcluirTelefone.setBackground(Color.DARK_GRAY);
 		menuListagemTelefone.add(menuItemExcluirTelefone);
-		
+
 		JMenuItem menuItemCadastrarTelefone = new JMenuItem("Cadastrar Telefone");
 		menuItemCadastrarTelefone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (limitadorCadastroTelefones == 0) {
-					limitadorCadastroTelefones++;
+				if (cadastroTelefone == null || !cadastroTelefone.isVisible()) {
 					cadastroTelefone = new InternalFrameCadastroTelefone();
 					desktopPane.add(cadastroTelefone);
 					cadastroTelefone.show();
 				}
-				if (cadastroTelefone.isClosed()) {
-					limitadorCadastroTelefones--;
-				}
 			}
 		});
 		menuItemCadastrarTelefone.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
-		menuItemCadastrarTelefone.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_add_phone_80px.png")));
+		menuItemCadastrarTelefone
+				.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/icons8_add_phone_80px.png")));
 		menuItemCadastrarTelefone.setForeground(Color.WHITE);
 		menuItemCadastrarTelefone.setBackground(Color.DARK_GRAY);
 		menuListagemTelefone.add(menuItemCadastrarTelefone);

@@ -45,7 +45,7 @@ public class InternalFrameCadastroTelefone extends JInternalFrame {
 	 */
 	public InternalFrameCadastroTelefone() {
 		setClosable(true);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 388, 242);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

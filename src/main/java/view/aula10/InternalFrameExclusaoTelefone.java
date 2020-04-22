@@ -43,7 +43,7 @@ public class InternalFrameExclusaoTelefone extends JInternalFrame {
 	public InternalFrameExclusaoTelefone() {
 		setClosable(true);
 		setTitle("Exclusão de telefone.");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 366, 183);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
