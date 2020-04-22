@@ -2,17 +2,16 @@ package view.aula10;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class TelaSobreAutores extends JFrame {
 
 	private JPanel contentPane;
-	private  MenuPrincipal menuPrincipal;
 
 	/**
 	 * Launch the application.
@@ -23,7 +22,6 @@ public class TelaSobreAutores extends JFrame {
 				try {
 					TelaSobreAutores frame = new TelaSobreAutores();
 					frame.setVisible(true);
-					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -35,13 +33,33 @@ public class TelaSobreAutores extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaSobreAutores() {
-		setTitle("Sobre o autor");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 728, 416);
+		setTitle("Sobre o autor");
+		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNome = new JLabel("Nome: Arthur Martins da Silva");
+		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNome.setBounds(106, 82, 207, 16);
+		contentPane.add(lblNome);
+		
+		JLabel lblCurso = new JLabel("Curso: An\u00E1lise e Desenvolvimento de Sistemas");
+		lblCurso.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblCurso.setBounds(106, 137, 310, 16);
+		contentPane.add(lblCurso);
+		
+		JLabel lblData = new JLabel("Data: 22/04/2020");
+		lblData.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblData.setBounds(106, 194, 128, 16);
+		contentPane.add(lblData);
+		
+		JLabel lblCidade = new JLabel("Cidade: Florian\u00F3polis");
+		lblCidade.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblCidade.setBounds(106, 250, 135, 16);
+		contentPane.add(lblCidade);
 	}
-
-}  
+}

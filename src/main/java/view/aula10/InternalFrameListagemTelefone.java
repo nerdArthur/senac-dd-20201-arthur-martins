@@ -81,7 +81,7 @@ public class InternalFrameListagemTelefone extends JInternalFrame {
 	 */
 	public InternalFrameListagemTelefone() {
 		setClosable(true);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 507, 333);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
